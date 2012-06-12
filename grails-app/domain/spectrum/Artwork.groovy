@@ -7,7 +7,7 @@ class Artwork {
 	String materials
 	Integer qtyAvailable
 
-//	static belongsTo = [artist: Artist]
+	static belongsTo = [artist: Artist]
 
 	static constraints = {
 		title(nullable: false, blank: false)

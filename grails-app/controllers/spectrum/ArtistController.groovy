@@ -120,14 +120,34 @@ class ArtistController {
 	}
 
 	def addArtwork() {
-		println(params)
+		println "addArtwork params: ${params}"
 		def artist = Artist.get(params.artistId)
-		def artwork = new Artwork()
-		artwork.properties = params
-		artwork.save()
-		artist.addToArtworks(artwork)
-		artist.save()
-		redirect(action: "show",id: artist.id)
+		println artist
+		if (artist)
+		{
+			def artwork = new Artwork(artist: artist, title: params.title, price: params.price, materials: params.materials, qtyAvailable: params.qtyAvailable)
+			artist.addToArtworks(artwork)
+			if (artist.save())
+			{
+				if (artwork.save())
+				{
+					flash.message = "The artwork has been saved"
+				}
+				else
+				{
+					flash.error = "Unable to save that artwork"
+				}
+			}
+			else
+			{
+				flash.error = "Unable to save that artwork"
+			}
+		}
+		else
+		{
+			flash.error = "We couldn't find that Artist"
+		}
+		redirect(action: "show", id: artist.id)
 	}
 }
 

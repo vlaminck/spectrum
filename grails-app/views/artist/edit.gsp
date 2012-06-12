@@ -35,9 +35,7 @@
 					<h1><g:message code="default.edit.label" args="[entityName]" /></h1>
 				</div>
 
-				<g:if test="${flash.message}">
-				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
-				</g:if>
+                <g:render template="../flashMessages"/>
 
 				<g:hasErrors bean="${artistInstance}">
 				<bootstrap:alert class="alert-error">
