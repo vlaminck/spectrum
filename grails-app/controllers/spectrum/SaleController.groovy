@@ -2,13 +2,15 @@ package spectrum
 
 class SaleController {
 
+	def saleService
+
 	def index() {
 		def currentSale = findCurrentSale()
 		return [saleInstance: currentSale]
 	}
 
 	private findCurrentSale() {
-		Sale.findByEndDateIsNull()
+		saleService.getCurrentSale()
 	}
 
 	def artists() {

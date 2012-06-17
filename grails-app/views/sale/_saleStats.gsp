@@ -1,10 +1,10 @@
 <ul>
     <li>Sale Start Date: ${saleInstance?.startDate}</li>
     <li>Sale End Date: ${saleInstance?.endDate}</li>
-    <li>Starting Cash: ${saleInstance?.startingCash}</li>
-    <li>Ending Cash: ${saleInstance?.endingCash}</li>
-    <li>Total Sold: ${saleInstance?.totalWithTax}</li>
-    <li>Total Before Tax: ${saleInstance?.totalBeforeTax}</li>
-    <li>Total Tax: ${saleInstance?.totalTax}</li>
-    <li>Total Cash Received: ${saleInstance?.totalCash}</li>
+    <li>Total Sold: <g:formatNumber number="${saleInstance?.totalWithTax?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
+    <li>Total Before Tax: <g:formatNumber number="${saleInstance?.totalBeforeTax?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
+    <li>Total Tax: <g:formatNumber number="${saleInstance?.totalTax?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
+    <li>Total Cash Received: <g:formatNumber number="${saleInstance?.totalCash?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
+    <li>Starting Cash: <g:formatNumber number="${saleInstance?.startingCash?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
+    <li>Ending Cash: <g:formatNumber number="${saleInstance?.endingCash?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
 </ul>

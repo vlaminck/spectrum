@@ -57,11 +57,11 @@ class Transaction {
 		{
 			total += paymentAmount1
 		}
-		if (paymentType2 == "Cash")
+		if (paymentType2 == "Cash" && paymentAmount2)
 		{
 			total += paymentAmount2
 		}
-		if (paymentType3 == "Cash")
+		if (paymentType3 == "Cash" && paymentAmount3)
 		{
 			total += paymentAmount3
 		}

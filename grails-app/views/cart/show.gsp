@@ -49,7 +49,7 @@
     <tr>
         <td class="bold">Total Including Tax:</td>
         <td></td>
-        <td class="bold"><g:formatNumber number="${total.round(2)}" type="currency" currencyCode="USD"/></td>
+        <td class="bold"><g:formatNumber number="${total?.round(2)}" type="currency" currencyCode="USD"/></td>
         <td></td>
         <td class="link">
             <a class="btn btn-success" data-toggle="modal" href="#myModal">Check Out</a>
@@ -61,7 +61,7 @@
 <br/>
 <g:link action="clearCart">Clear!</g:link>
 <div class="modal hide" id="myModal">
-    <g:form controller="sale" action="checkOut">
+    <g:form controller="cart" action="checkOut">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
 

@@ -20,9 +20,10 @@
 
             <th></th>
 
-            <g:sortableColumn property="qtyToPurchase"
-                                          title="Qty to Purchase"/>
-
+            <g:ifSale>
+                <g:sortableColumn property="qtyToPurchase"
+                                  title="Qty to Purchase"/>
+            </g:ifSale>
             <th></th>
         </tr>
         </thead>
@@ -41,12 +42,14 @@
 
                 <td><g:link controller="artwork" action="edit" id="${artworkInstance.id}">Edit</g:link></td>
 
-                <td class="link">
-                    <g:form controller="cart" action="addToCart" id="${artworkInstance.id}">
-                    <g:textField name="qtyToPurchase"/>
-                        <input type="hidden" name="artistId" value="${artworkInstance.artist.id}">
-                    <g:submitButton value="Add to Cart" name="submit"/></g:form>
-                </td>
+                <g:ifSale>
+                    <td class="link">
+                        <g:form controller="cart" action="addToCart" id="${artworkInstance.id}">
+                            <g:textField name="qtyToPurchase"/>
+                            <input type="hidden" name="artistId" value="${artworkInstance.artist.id}">
+                            <g:submitButton value="Add to Cart" name="submit"/></g:form>
+                    </td>
+                </g:ifSale>
             </tr>
         </g:each>
         </tbody>

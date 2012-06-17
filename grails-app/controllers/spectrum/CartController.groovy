@@ -2,12 +2,14 @@ package spectrum
 
 class CartController {
 
+	def saleService
+
 	def index() { redirect(action: "show") }
 
 	def show() {
 		def cart = getShoppingCart()
 		def artworkList = []
-		def total = 0.0
+		double total = 0.0
 		List artworks = cart.artworks as List
 		artworks.each {
 			def artworkMap = [:]
@@ -63,14 +65,35 @@ class CartController {
 
 	def checkOut() {
 		def cart = getShoppingCart()
-		if (cart.artworks) {
+		if (cart.artworks)
+		{
+			def sale = saleService.getCurrentSale()
 
-//			TODO: FINISH THIS
-			def transaction = new Transaction()
-			cart.artworks.each {
-
+			def transaction = new Transaction(
+							paymentType1: params.paymentType1,
+							paymentAmount1: params.paymentAmount1,
+							paymentType2: params.paymentType2,
+							paymentAmount2: params.paymentAmount2,
+							paymentType3: params.paymentType3,
+							paymentAmount3: params.paymentAmount3
+			).save()
+			sale.addToTransactions(transaction)
+			sale.save()
+			List artworks = cart.artworks as List
+			artworks.each {
+				def artwork = Artwork.get(it.artworkId)
+				def transactionItem = new TransactionItem(
+								artworkId: it.artworkId,
+								qtySold: it.artworkQty,
+								priceEach: artwork.price
+				).save()
+				transaction.addToTransactionItems(transactionItem)
+				transaction.save()
 			}
+			clearCart()
 		}
+//		redirect(controller: "artist", action: "list")
+		//redirect(action: "show")
 	}
 
 	private emptyCart() {
