@@ -62,10 +62,21 @@
 							<td>${fieldValue(bean: artistInstance, field: "lastName")}</td>
 						
 							<td class="link">
-								<g:link action="show" id="${artistInstance.id}" class="btn btn-small">Show &raquo;</g:link>
+								<g:link action="show" id="${artistInstance.id}" class="btn btn-small">Go To Artworks &raquo;</g:link>
 							</td>
 						</tr>
 					</g:each>
+                    <g:form controller="artist" action="create">
+                    <tr>
+                        <td><g:textField name="firstName" required="" placeholder="Enter first name..."/></td>
+
+                        <td><g:textField name="middleName" placeholder="Enter middle name..."/></td>
+
+                        <td><g:textField name="lastName" placeholder="Enter last name..."/></td>
+
+                        <td><g:submitButton name="artistSubmit" value="Add New Artist" class="btn btn-primary"/></td>
+                    </tr>
+                        </g:form>
 					</tbody>
 				</table>
 				<div class="pagination">

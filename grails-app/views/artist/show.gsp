@@ -13,7 +13,7 @@
     <div class="span3">
         <div class="well">
             <ul class="nav nav-list">
-                <li class="nav-header">${entityName}</li>
+                <li class="nav-header">Menu</li>
                 <li>
                     <g:link class="list" action="list">
                         <i class="icon-list"></i>
@@ -32,52 +32,27 @@
 
     <div class="span9">
 
-        <div class="page-header">
-            <h1><g:message code="default.show.label" args="[entityName]"/></h1>
-        </div>
-
-        <g:render template="../flashMessages"/>
-
-        <dl>
-
-            <g:if test="${artistInstance?.firstName}">
-                <dt><g:message code="artist.firstName.label" default="First Name"/></dt>
-
-                <dd><g:fieldValue bean="${artistInstance}" field="firstName"/></dd>
-
-            </g:if>
-
-            <g:if test="${artistInstance?.middleName}">
-                <dt><g:message code="artist.middleName.label" default="Middle Name"/></dt>
-
-                <dd><g:fieldValue bean="${artistInstance}" field="middleName"/></dd>
-
-            </g:if>
-
-            <g:if test="${artistInstance?.lastName}">
-                <dt><g:message code="artist.lastName.label" default="Last Name"/></dt>
-
-                <dd><g:fieldValue bean="${artistInstance}" field="lastName"/></dd>
-
-            </g:if>
-
-        </dl>
-
         <g:form>
-            <g:hiddenField name="id" value="${artistInstance?.id}"/>
-            <div class="form-actions">
+            <div class="page-header">
+                <span class="headerTitle">${artistInstance.fullName}</span>
+                <g:hiddenField name="id" value="${artistInstance?.id}"/>
                 <g:link class="btn" action="edit" id="${artistInstance?.id}">
                     <i class="icon-pencil"></i>
                     Edit Artist
                 </g:link>
                 <g:ifSale>
                     <g:link class="shoppingCartButton btn btn-success" controller="cart"
-                            action="show">Shopping Cart</g:link>
+                    action="show">Shopping Cart</g:link>
                 </g:ifSale>
             </div>
+            <g:render template="../flashMessages"/>
         </g:form>
         <g:render template="artworks"
-                  model="[artworkInstanceList: artistInstance.artworks.sort {it.title}, artworkInstanceTotal: artistInstance.artworks.size()]"/>
+                  model="[
+                          artworkInstanceList: artistInstance.artworks.sort {it.title}
+                          , artworkInstanceTotal: artistInstance.artworks.size()
+                          , artistInstance: artistInstance
+                  ]"/>
 
     </div>
 </div>

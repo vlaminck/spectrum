@@ -80,3 +80,9 @@ td.rightAlign {
 div.span3 {
     max-width: 15%;
 }
+
+.headerTitle {
+    font-size: 3em;
+    font-weight: bold;
+    padding-right: 10px;
+}

@@ -21,8 +21,10 @@
             <th></th>
 
             <g:ifSale>
+                <g:if test="${artworkInstanceList}">
                 <g:sortableColumn property="qtyToPurchase"
                                   title="Qty to Purchase"/>
+                    </g:if>
             </g:ifSale>
             <th></th>
         </tr>
@@ -53,6 +55,7 @@
             </tr>
         </g:each>
         <g:form controller="artist" action="addArtwork">
+            <input type="hidden" name="artistId" value="${artistInstance.id}"/>
             <tr>
                 <td><g:textField name="title" placeholder="Enter title..."/></td>
 
