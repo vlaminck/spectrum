@@ -24,8 +24,8 @@ class CartController {
 			total += artwork.price * artworkMap.artworkQty
 		}
 		println(artworkList)
-		total *= 1.0775
-		return [artworkList: artworkList, total: total]
+		def totalWithTax = total * 1.0775
+		return [artworkList: artworkList, total: total, totalWithTax: totalWithTax]
 	}
 
 	def addToCart() {
@@ -86,7 +86,12 @@ class CartController {
 								artworkId: it.artworkId,
 								qtySold: it.artworkQty,
 								priceEach: artwork.price
-				).save()
+				)
+				if (transactionItem.save())
+				{
+					artwork.qtyAvailable -= it.artworkQty
+					artwork.save()
+				}
 				transaction.addToTransactionItems(transactionItem)
 				transaction.save()
 			}
@@ -116,34 +121,48 @@ class CartController {
 	private addItemToCart(Artwork artwork, params) {
 		def cart = getShoppingCart()
 		def addNew = true
-
-		cart.artworks.each {
+		List artworks = cart.artworks as List
+		artworks.each {
 			if (it.artworkId == params.id)
 			{
-				addNew = false
-				if ((artwork.qtyAvailable - it.artworkQty) >= params.qtyToPurchase.toInteger())
+				if (artwork.qtyAvailable > 0)
 				{
-					it.artworkQty += params.qtyToPurchase as Integer
-					flash.message = "There are now ${it.artworkQty} of ${artwork.title} in the cart"
+					addNew = false
+					if ((artwork.qtyAvailable - it.artworkQty) >= params.qtyToPurchase.toInteger())
+					{
+						it.artworkQty += params.qtyToPurchase as Integer
+						flash.message = "There are now ${it.artworkQty} of <span class='italicize'>${artwork.title}</span> in the cart"
+					}
+					else
+					{
+						flash.error = "You've tried to add more items than are available"
+					}
 				}
 				else
 				{
-					flash.error = "You've tried to add more items than are available"
+					flash.warn = "There are no more of <span class='italicize'>${artwork.title}</span> available"
 				}
 			}
 		}
 
 		if (addNew)
 		{
-			if (artwork.qtyAvailable >= params.qtyToPurchase.toInteger())
+			if (artwork.qtyAvailable > 0)
 			{
-				def entry = [artworkId: params.id, artworkQty: params.qtyToPurchase as Integer]
-				cart.artworks << entry
-				flash.message = "There are now ${params.qtyToPurchase} of ${artwork.title} in the cart"
+				if (artwork.qtyAvailable >= params.qtyToPurchase.toInteger())
+				{
+					def entry = [artworkId: params.id, artworkQty: params.qtyToPurchase as Integer]
+					cart.artworks << entry
+					flash.message = "There are now ${params.qtyToPurchase} of <span class='italicize'>${artwork.title}</span> in the cart"
+				}
+				else
+				{
+					flash.error = "You've tried to add more items than are available"
+				}
 			}
 			else
 			{
-				flash.error = "You've tried to add more items than are available"
+				flash.warn = "There are no more of <span class='italicize'>${artwork.title}</span> available"
 			}
 		}
 		cart

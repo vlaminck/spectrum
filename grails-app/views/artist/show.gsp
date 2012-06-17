@@ -61,7 +61,6 @@
 
             </g:if>
 
-
         </dl>
 
         <g:form>
@@ -69,29 +68,17 @@
             <div class="form-actions">
                 <g:link class="btn" action="edit" id="${artistInstance?.id}">
                     <i class="icon-pencil"></i>
-                    <g:message code="default.button.edit.label" default="Edit"/>
+                    Edit Artist
                 </g:link>
-                <button class="btn btn-danger" type="submit" name="_action_delete">
-                    <i class="icon-trash icon-white"></i>
-                    <g:message code="default.button.delete.label" default="Delete"/>
-                </button>
+                <g:ifSale>
+                    <g:link class="shoppingCartButton btn btn-success" controller="cart"
+                            action="show">Shopping Cart</g:link>
+                </g:ifSale>
             </div>
         </g:form>
         <g:render template="artworks"
-                  model="[artworkInstanceList: artistInstance.artworks, artworkInstanceTotal: artistInstance.artworks.size()]"/>
-        <fieldset>
-            <g:form class="form-horizontal" action="addArtwork">
-                <fieldset>
-                    <g:render template="../artwork/form"/>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="icon-ok icon-white"></i>
-                            <g:message code="default.button.create.label" default="Create"/>
-                        </button>
-                    </div>
-                </fieldset>
-            </g:form>
-        </fieldset>
+                  model="[artworkInstanceList: artistInstance.artworks.sort {it.title}, artworkInstanceTotal: artistInstance.artworks.size()]"/>
+
     </div>
 </div>
 </body>

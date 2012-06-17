@@ -60,3 +60,23 @@ pre.snippet .error {
 .bold {
     font-weight: bold;
 }
+
+.shoppingCartButton {
+    float: right;
+}
+
+td.rightAlign {
+    text-align: right;
+}
+
+.italicize {
+    font-style: italic;
+}
+
+.shortInput {
+    max-width: 100px;
+}
+
+div.span3 {
+    max-width: 15%;
+}

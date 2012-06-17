@@ -45,13 +45,26 @@
                 <g:ifSale>
                     <td class="link">
                         <g:form controller="cart" action="addToCart" id="${artworkInstance.id}">
-                            <g:textField name="qtyToPurchase"/>
+                            <g:textField class="shortInput" name="qtyToPurchase"/>
                             <input type="hidden" name="artistId" value="${artworkInstance.artist.id}">
                             <g:submitButton value="Add to Cart" name="submit"/></g:form>
                     </td>
                 </g:ifSale>
             </tr>
         </g:each>
+        <g:form controller="artist" action="addArtwork">
+            <tr>
+                <td><g:textField name="title" placeholder="Enter title..."/></td>
+
+                <td><g:textField class="shortInput" name="price" placeholder="Enter price..."/></td>
+
+                <td><g:textField name="materials" placeholder="Enter materials..."/></td>
+
+                <td><g:textField class="shortInput" name="qtyAvailable" placeholder="Enter quantity..."/></td>
+
+                <td><g:submitButton name="newArtworkSubmit" value="Create" class="btn btn-primary"/></td>
+            </tr>
+        </g:form>
         </tbody>
     </table>
 

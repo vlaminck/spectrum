@@ -51,7 +51,7 @@
 					<g:form class="form-horizontal" action="edit" id="${artistInstance?.id}" >
 						<g:hiddenField name="version" value="${artistInstance?.version}" />
 						<fieldset>
-							<f:all bean="artistInstance"/>
+							<g:render template="form" model="[artistInstance: artistInstance]"/>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>

@@ -19,6 +19,8 @@
         <g:sortableColumn property="artworkQty"
                           title="${message(code: 'artwork.qtyAvailable.label', default: 'Qty')}"/>
 
+        <g:sortableColumn property="totalPrice" title="Total Price"></g:sortableColumn>
+
         <th></th>
     </tr>
     </thead>
@@ -34,6 +36,9 @@
 
             <td>${artworkInstance.artworkQty}</td>
 
+            <td><g:formatNumber number="${artworkInstance.artworkQty * artworkInstance.price.round(2)}" type="currency"
+                                currencyCode="USD"/></td>
+
             <td class="link">
             %{--<g:link controller="artist" action="show" id="${artworkInstance.artistId}" class="btn btn-small">Edit &raquo;</g:link>--}%
                 <g:link action="removeFromCart" id="${artworkInstance.artworkId}"
@@ -42,15 +47,34 @@
         </tr>
     </g:each>
     <tr>
-        <td colspan="5">
+        <td colspan="7">
             <hr/>
         </td>
     </tr>
     <tr>
-        <td class="bold">Total Including Tax:</td>
         <td></td>
-        <td class="bold"><g:formatNumber number="${total?.round(2)}" type="currency" currencyCode="USD"/></td>
         <td></td>
+        <td></td>
+        <td class="rightAlign">Total Before Tax:</td>
+        <td><g:formatNumber number="${total?.round(2)}" type="currency" currencyCode="USD"/></td>
+        <td class="link">
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="rightAlign">Total Tax:</td>
+        <td><g:formatNumber number="${(totalWithTax - total)?.round(2)}" type="currency" currencyCode="USD"/></td>
+        <td class="link">
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="bold rightAlign">Total Including Tax:</td>
+        <td class="bold"><g:formatNumber number="${totalWithTax?.round(2)}" type="currency" currencyCode="USD"/></td>
         <td class="link">
             <a class="btn btn-success" data-toggle="modal" href="#myModal">Check Out</a>
         </td>
@@ -65,7 +89,9 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
 
-            <h3>Check Out</h3>
+            <h3>Check Out &nbsp;&nbsp;
+                <span class="bold"><g:formatNumber number="${totalWithTax?.round(2)}" type="currency"
+                                                   currencyCode="USD"/></span></h3>
         </div>
 
         <div class="modal-body">
