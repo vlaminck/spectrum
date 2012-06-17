@@ -3,7 +3,12 @@ package spectrum
 class SaleController {
 
 	def index() {
-		redirect(action: "artists")
+		def currentSale = findCurrentSale()
+		return [saleInstance: currentSale]
+	}
+
+	private findCurrentSale() {
+		Sale.findByEndDateIsNull()
 	}
 
 	def artists() {
@@ -12,7 +17,37 @@ class SaleController {
 	}
 
 	def show() {
-		def artist = Artist.get(params.id)
-		return [artistInstance: artist]
+		def sale = Sale.get(params.id)
+		return [saleInstance: sale]
 	}
+
+	def startSale() {
+		println(params)
+		if (!findCurrentSale())
+		{
+			def sale = new Sale(startingCash: params.startingCash as Double)
+			if (sale.save())
+			{
+				flash.message = "Your sale has started!"
+			}
+			else
+			{
+				flash.error = "Unable to start sale..."
+			}
+		}
+		else {
+			flash.warn = "You must end the current sale before starting another."
+		}
+		redirect action: "index"
+	}
+
+	def endSale() {
+		println(params)
+		def sale = findCurrentSale()
+		sale.endDate = new Date()
+		sale.save()
+		redirect(action: "show", id: sale.id)
+
+	}
+
 }

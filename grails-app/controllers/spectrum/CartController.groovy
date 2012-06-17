@@ -7,22 +7,90 @@ class CartController {
 	def show() {
 		def cart = getShoppingCart()
 		def artworkList = []
-		cart.artworks.each {
+		def total = 0.0
+		List artworks = cart.artworks as List
+		artworks.each {
 			def artworkMap = [:]
 			def artwork = Artwork.get(it.artworkId)
+			artworkMap.artworkId = artwork.id
+			artworkMap.artistId = artwork.artist.id
 			artworkMap.title = artwork.title
 			artworkMap.artist = artwork.artist.fullName
 			artworkMap.price = artwork.price
 			artworkMap.artworkQty = it.artworkQty
 			artworkList << artworkMap
+			total += artwork.price * artworkMap.artworkQty
 		}
 		println(artworkList)
-		return [artworkList: artworkList]
+		total *= 1.0775
+		return [artworkList: artworkList, total: total]
 	}
 
 	def addToCart() {
 		println(params)
 		def artwork = Artwork.get(params.id)
+		def cart = addItemToCart(artwork, params)
+		println(cart)
+		redirect(controller: "artist", action: "show", id: params.artistId)
+	}
+
+
+	def removeFromCart() {
+		println(params)
+		def cart = getShoppingCart()
+		def itemsToKeep = []
+		List artworks = cart.artworks as List
+		artworks.each {
+			if (it.artworkId != params.id)
+			{
+				itemsToKeep << it
+			}
+		}
+		emptyCart()
+		itemsToKeep.each {
+			def artwork = Artwork.get(it.artworkId)
+			def cartParams = [id: it.artworkId, qtyToPurchase: it.artworkQty]
+			cart = addItemToCart(artwork, cartParams)
+		}
+		println(cart)
+		redirect(action: "show")
+	}
+
+	def clearCart() {
+		emptyCart()
+		redirect(action: "show")
+	}
+
+	def checkOut() {
+		def cart = getShoppingCart()
+		if (cart.artworks) {
+
+//			TODO: FINISH THIS
+			def transaction = new Transaction()
+			cart.artworks.each {
+
+			}
+		}
+	}
+
+	private emptyCart() {
+		def cart = getShoppingCart()
+		cart.artworks = [] as List
+	}
+
+	private getShoppingCart() {
+		if (!session.shoppingCart)
+		{
+			session.shoppingCart = [:]
+		}
+		if (!session.shoppingCart.artworks)
+		{
+			session.shoppingCart.artworks = [] as List
+		}
+		return session.shoppingCart
+	}
+
+	private addItemToCart(Artwork artwork, params) {
 		def cart = getShoppingCart()
 		def addNew = true
 
@@ -55,25 +123,7 @@ class CartController {
 				flash.error = "You've tried to add more items than are available"
 			}
 		}
-		println(cart)
-		redirect(controller: "artist", action: "show", id: params.artistId)
+		cart
 	}
 
-	def clearCart() {
-		def cart = getShoppingCart()
-		cart.artworks = [] as List
-		redirect(action: "show")
-	}
-
-	private getShoppingCart() {
-		if (!session.shoppingCart)
-		{
-			session.shoppingCart = [:]
-		}
-		if (!session.shoppingCart.artworks)
-		{
-			session.shoppingCart.artworks = [] as List
-		}
-		return session.shoppingCart
-	}
 }

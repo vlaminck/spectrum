@@ -12,16 +12,20 @@ class Transaction {
 
 	static hasMany = [transactionItems: TransactionItem]
 
-	static transients = ['totalBeforeTax', 'totalWithTax', 'totalTax']
+	static transients = ['totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash']
 
 	static constraints = {
 
-		paymentType2(nullable: true)
+		paymentType1(nullable: false, inList: paymentTypes)
+		paymentAmount1(nullable: false)
+		paymentType2(nullable: true, inList: paymentTypes)
 		paymentAmount2(nullable: true)
-		paymentType3(nullable: true)
+		paymentType3(nullable: true, inList: paymentTypes)
 		paymentAmount3(nullable: true)
 
 	}
+
+	static paymentTypes = ["Cash", "Check"]
 
 	def getTotalBeforeTax() {
 		def total = 0.0
@@ -43,6 +47,23 @@ class Transaction {
 		def total = 0.0
 		transactionItems.each {
 			total += it.totalTax
+		}
+		return total
+	}
+
+	def getTotalCash() {
+		def total = 0.0
+		if (paymentType1 == "Cash")
+		{
+			total += paymentAmount1
+		}
+		if (paymentType2 == "Cash")
+		{
+			total += paymentAmount2
+		}
+		if (paymentType3 == "Cash")
+		{
+			total += paymentAmount3
 		}
 		return total
 	}

@@ -18,6 +18,8 @@
             <g:sortableColumn property="qtyAvailable"
                               title="${message(code: 'artwork.qtyAvailable.label', default: 'Qty Available')}"/>
 
+            <th></th>
+
             <g:sortableColumn property="qtyToPurchase"
                                           title="Qty to Purchase"/>
 
@@ -34,8 +36,10 @@
 
                 <td>${fieldValue(bean: artworkInstance, field: "materials")}</td>
 
+
                 <td>${fieldValue(bean: artworkInstance, field: "qtyAvailable")}</td>
 
+                <td><g:link controller="artwork" action="edit" id="${artworkInstance.id}">Edit</g:link></td>
 
                 <td class="link">
                     <g:form controller="cart" action="addToCart" id="${artworkInstance.id}">
