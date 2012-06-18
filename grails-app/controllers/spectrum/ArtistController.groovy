@@ -122,7 +122,7 @@ class ArtistController {
 	def addArtwork() {
 		println "addArtwork params: ${params}"
 		def artist = Artist.get(params.artistId)
-		println artist
+		redirect(action: "show", id: artist.id)
 		if (artist)
 		{
 			def artwork = new Artwork(artist: artist, title: params.title, price: params.price, materials: params.materials, qtyAvailable: params.qtyAvailable)
@@ -147,7 +147,6 @@ class ArtistController {
 		{
 			flash.error = "We couldn't find that Artist"
 		}
-		redirect(action: "show", id: artist.id)
 	}
 }
 

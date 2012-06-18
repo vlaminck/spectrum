@@ -23,7 +23,6 @@ class CartController {
 			artworkList << artworkMap
 			total += artwork.price * artworkMap.artworkQty
 		}
-		println(artworkList)
 		def totalWithTax = total * 1.0775
 		return [artworkList: artworkList, total: total, totalWithTax: totalWithTax]
 	}
