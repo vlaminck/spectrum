@@ -8,7 +8,7 @@
 <body>
 <div class="page-header">
     <span class="headerTitle">Shopping Cart</span>
-
+    <g:link class="btn btn-danger" action="clearCart">Clear Cart</g:link>
 </div>
 <table class="table table-striped">
     <thead>
@@ -46,7 +46,7 @@
             <td class="link">
             %{--<g:link controller="artist" action="show" id="${artworkInstance.artistId}" class="btn btn-small">Edit &raquo;</g:link>--}%
                 <g:link action="removeFromCart" id="${artworkInstance.artworkId}"
-                        class="btn btn-small">Remove from Cart &raquo;</g:link>
+                        class="btn btn-small">Remove from Cart</g:link>
             </td>
         </tr>
     </g:each>
@@ -74,8 +74,7 @@
         </td>
     </tr>
     <tr>
-        <td class="link">
-            <g:link class="btn btn-danger" action="clearCart">Clear Cart</g:link>
+        <td>
         </td>
         <td></td>
         <td></td>
