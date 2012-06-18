@@ -86,3 +86,32 @@ div.span3 {
     font-weight: bold;
     padding-right: 10px;
 }
+
+.modal-body select {
+    width: 15%;
+    margin-right: 15px;
+}
+
+.modal-body input {
+    width: 25%;
+}
+
+.modal-body label {
+    display: inline;
+    margin-left: 2px;
+}
+
+.modal-body ul {
+    list-style: none;
+}
+
+#payment2,
+#payment3 {
+    display: none;
+}
+
+#paymentSum {
+    float: right;
+    margin-right: 10px;
+    color: red;
+}

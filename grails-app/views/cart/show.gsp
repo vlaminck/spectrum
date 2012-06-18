@@ -6,6 +6,10 @@
 </head>
 
 <body>
+<div class="page-header">
+    <span class="headerTitle">Shopping Cart</span>
+
+</div>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -70,7 +74,9 @@
         </td>
     </tr>
     <tr>
-        <td></td>
+        <td class="link">
+            <g:link class="btn btn-danger" action="clearCart">Clear Cart</g:link>
+        </td>
         <td></td>
         <td></td>
         <td class="bold rightAlign">Total Including Tax:</td>
@@ -83,46 +89,199 @@
 </table>
 
 <br/>
-<g:link action="clearCart">Clear!</g:link>
+
 <div class="modal hide" id="myModal">
     <g:form controller="cart" action="checkOut">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
 
-            <h3>Check Out &nbsp;&nbsp;
-                <span class="bold"><g:formatNumber number="${totalWithTax?.round(2)}" type="currency"
-                                                   currencyCode="USD"/></span></h3>
+            <h3>
+                Check Out &nbsp;&nbsp;
+                <span class="bold">
+                    <g:formatNumber number="${totalWithTax?.round(2)}" type="currency" currencyCode="USD"/>
+                </span>
+            </h3>
         </div>
 
         <div class="modal-body">
             <ul>
-                <li>
+                <li id="payment1">
                     <label for="paymentType1">Payment Type</label>
                     <g:select from="${Transaction.paymentTypes}" name="paymentType1"/>
                     <label for="paymentAmount1">Amount</label>
-                    <g:textField name="paymentAmount1"/>
+                    <g:textField name="paymentAmount1" required=""/>
                 </li>
-                <li>
+                <li id="payment2">
                     <label for="paymentType2">Payment Type</label>
                     <g:select from="${Transaction.paymentTypes}" name="paymentType2"/>
                     <label for="paymentAmount2">Amount</label>
                     <g:textField name="paymentAmount2"/>
                 </li>
-                <li>
+                <li id="payment3">
                     <label for="paymentType3">Payment Type</label>
                     <g:select from="${Transaction.paymentTypes}" name="paymentType3"/>
                     <label for="paymentAmount3">Amount</label>
                     <g:textField name="paymentAmount3"/>
+                </li>
+                <li id="addPaymentButton">
+                    <a class="btn btn-info" href="javascript:addPaymentType();">Add Payment Type</a>
                 </li>
             </ul>
         </div>
 
 
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <g:submitButton class="btn btn-primary" name="finalPayment" value="Authorize"/>
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <g:submitButton class="btn btn-primary" name="finalPayment" value="Authorize" disabled="disabled"/>
+            <h3 id="paymentSum">
+                Amount left: $<span>
+                <g:formatNumber number="${totalWithTax?.round(2)}" type="number" currencyCode="USD"/></span>
+            </h3>
         </div>
     </g:form>
 </div>
+
+<script type="text/javascript">
+    var amountLeft = parseFloat("${totalWithTax?.round(2)}");
+    function addPaymentType()
+    {
+        if ($("#payment2").is(":hidden"))
+        {
+            $("#payment2").show();
+        }
+        else if ($("#payment3").is(":hidden"))
+        {
+            $("#payment3").show();
+            $("#addPaymentButton").hide();
+        }
+        verifyPaymentTypes()
+    }
+
+    function calculatePayments()
+    {
+        var temp = amountLeft;
+        if ($("#paymentAmount1").val() != "")
+        {
+            temp -= parseFloat($("#paymentAmount1").val());
+        }
+        if ($("#paymentAmount2").val() != "")
+        {
+            temp -= parseFloat($("#paymentAmount2").val());
+        }
+
+        if ($("#paymentAmount3").val() != "")
+        {
+            temp -= parseFloat($("#paymentAmount3").val());
+        }
+        return temp.toFixed(2);
+    }
+
+    function verifyPaymentTypes()
+    {
+        if ($("#payment1").find("select").val() == "Cash")
+        {
+            disableCash("#payment2");
+            disableCash("#payment3");
+        }
+        else if ($("#payment2").find("select").val() == "Cash")
+        {
+            disableCash("#payment1");
+            disableCash("#payment3");
+        }
+        else if ($("#payment3").find("select").val() == "Cash")
+        {
+            disableCash("#payment1");
+            disableCash("#payment2");
+        }
+    }
+
+    function disableCash(selectorId)
+    {
+        $(selectorId).find("option[value=Cash]").attr('disabled', 'disabled');
+        $(selectorId).find("select").val("Check");
+    }
+
+    function enableCash(selectorId)
+    {
+        $(selectorId).find("option[value=Cash]").removeAttr('disabled');
+    }
+
+    function toggleDisabled()
+    {
+        var paymentAmount = calculatePayments()
+        if (paymentAmount == 0.00)
+        {
+            $("#paymentSum").css({color:"green"});
+            $("#finalPayment").removeAttr('disabled');
+        }
+        else
+        {
+            $("#paymentSum").css({color:"red"});
+            $("#finalPayment").attr('disabled', 'disabled');
+        }
+    }
+
+    function updateCheckoutForm()
+    {
+        $("#paymentSum").find("span").text(calculatePayments());
+        toggleDisabled();
+        verifyPaymentTypes();
+    }
+
+    function updateCheckoutSelects(elementId)
+    {
+        if ($("#" + elementId).val() == "Check")
+        {
+            if (elementId == "paymentType1")
+            {
+                enableCash("#paymentType2");
+                enableCash("#paymentType3");
+            }
+            else if (elementId == "paymentType2")
+            {
+                enableCash("#paymentType1");
+                enableCash("#paymentType3");
+            }
+            else if (elementId == "paymentType3")
+            {
+                enableCash("#paymentType1");
+                enableCash("#paymentType2");
+            }
+        }
+        else if ($("#" + elementId).val() == "Cash")
+        {
+            if (elementId == "paymentType1")
+            {
+                disableCash("#paymentType2");
+                disableCash("#paymentType3");
+            }
+            else if (elementId == "paymentType2")
+            {
+                disableCash("#paymentType1");
+                disableCash("#paymentType3");
+            }
+            else if (elementId == "paymentType3")
+            {
+                disableCash("#paymentType1");
+                disableCash("#paymentType2");
+            }
+        }
+    }
+    $(document).ready(function ()
+    {
+        $(".modal-body").find("input").change(function ()
+                {
+                    updateCheckoutForm();
+                }
+        );
+
+        $(".modal-body").find("select").change(function ()
+                {
+                    updateCheckoutSelects(this.id);
+                }
+        );
+
+    });
+</script>
 </body>
 </html>

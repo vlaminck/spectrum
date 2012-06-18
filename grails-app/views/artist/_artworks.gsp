@@ -1,8 +1,6 @@
 <div class="span9">
 
-    <div class="page-header">
-        <h1>Artworks</h1>
-    </div>
+
 
     <table class="table table-striped">
         <thead>
@@ -47,9 +45,14 @@
                 <g:ifSale>
                     <td class="link">
                         <g:form controller="cart" action="addToCart" id="${artworkInstance.id}">
-                            <g:textField class="shortInput" name="qtyToPurchase"/>
+                            <g:if test="${artworkInstance.qtyAvailable == 0}">
+                            <g:textField class="shortInput" name="qtyToPurchase" disabled=""/></g:if>
+                            <g:else><g:textField class="shortInput" name="qtyToPurchase"/></g:else>
                             <input type="hidden" name="artistId" value="${artworkInstance.artist.id}">
-                            <g:submitButton value="Add to Cart" name="submit"/></g:form>
+                            <g:if test="${artworkInstance.qtyAvailable == 0}">
+                            <g:submitButton class="btn btn-success" value="Add to Cart" name="submit" disabled=""/></g:if>
+                            <g:else><g:submitButton class="btn btn-success" value="Add to Cart" name="submit"/></g:else>
+                            </g:form>
                     </td>
                 </g:ifSale>
             </tr>
@@ -57,13 +60,13 @@
         <g:form controller="artist" action="addArtwork">
             <input type="hidden" name="artistId" value="${artistInstance.id}"/>
             <tr>
-                <td><g:textField name="title" placeholder="Enter title..."/></td>
+                <td><g:textField name="title" required="" placeholder="Enter title..."/></td>
 
-                <td><g:textField class="shortInput" name="price" placeholder="Enter price..."/></td>
+                <td><g:textField class="shortInput" required="" name="price" placeholder="Enter price..."/></td>
 
                 <td><g:textField name="materials" placeholder="Enter materials..."/></td>
 
-                <td><g:textField class="shortInput" name="qtyAvailable" placeholder="Enter quantity..."/></td>
+                <td><g:textField class="shortInput" required="" name="qtyAvailable" placeholder="Enter quantity..."/></td>
 
                 <td><g:submitButton name="newArtworkSubmit" value="Create" class="btn btn-primary"/></td>
             </tr>

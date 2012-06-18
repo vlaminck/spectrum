@@ -6,7 +6,8 @@ class SaleController {
 
 	def index() {
 		def currentSale = findCurrentSale()
-		return [saleInstance: currentSale]
+		def saleList = Sale.list(sort: "startDate", order: "desc")
+		return [saleInstance: currentSale, saleList: saleList]
 	}
 
 	private findCurrentSale() {

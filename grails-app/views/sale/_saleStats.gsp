@@ -8,3 +8,4 @@
     <li>Starting Cash: <g:formatNumber number="${saleInstance?.startingCash?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
     <li>Ending Cash: <g:formatNumber number="${saleInstance?.endingCash?.toDouble()?.round(2)}" type="currency" currencyCode="USD"/></li>
 </ul>
+<hr/>

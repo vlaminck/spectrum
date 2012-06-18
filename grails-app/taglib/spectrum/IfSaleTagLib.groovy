@@ -9,5 +9,11 @@ class IfSaleTagLib {
 		}
 
 	}
+	def elseSale = { attrs, body ->
+		if (!saleService.getCurrentSale())
+		{
+			out << body()
+		}
 
+	}
 }
