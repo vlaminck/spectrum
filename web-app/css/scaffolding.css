@@ -1,60 +1,60 @@
 body {
-	-webkit-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
 }
 
 @media (min-width:980px) {
-	body { 
-		padding-top: 60px; 
-	}
+    body {
+        padding-top: 60px;
+    }
 }
 
 /* index page */
 
 img#github-ribbon {
-	position: absolute; 
-	top: 0; 
-	right: 0; 
-	border: 0;
-	z-index: 1030; /* no idea where this comes from, lowest value that works */
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    z-index: 1030; /* no idea where this comes from, lowest value that works */
 }
 
 @media (max-width: 768px) {
-	.navbar .brand {
-		max-width: 75%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	
-	.hero-unit {
-		padding: 20px;
-	}
+    .navbar .brand {
+        max-width: 75%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
-	#application-status {
-		display: none;
-	}
+    .hero-unit {
+        padding: 20px;
+    }
+
+    #application-status {
+        display: none;
+    }
 }
 
 /* list pages */
 
 table td.link {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 /* error page */
 
 pre.snippet code.line {
-	border: none;
-	display: block;
+    border: none;
+    display: block;
 }
 
 pre.snippet .lineNumber {
-	display: inline-block;
-	width: 3em;
+    display: inline-block;
+    width: 3em;
 }
 
 pre.snippet .error {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .bold {
@@ -118,4 +118,8 @@ div.span3 {
 
 #startingCash {
     width: 43%;
+}
+
+span.hiddenLabel {
+    display: none;
 }

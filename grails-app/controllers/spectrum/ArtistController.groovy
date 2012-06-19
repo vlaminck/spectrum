@@ -47,6 +47,40 @@ class ArtistController {
 		[artistInstance: artistInstance]
 	}
 
+	def printLabels() {
+		def artistInstance = Artist.get(params.id)
+//		artistInstance.artworks.each {
+//			def price = it.price.toString()
+//			println(price)
+//			if (price.contains('.'))
+//			{
+//				def split = price.split('.')
+//				println(split)
+//				def dollars = split[0]
+//				def cents = split.size() > 1 ? split[1] : '00'
+//				if (cents.size() == 1)
+//				{
+//					cents += '0'
+//				}
+//				else if (cents.size() > 2)
+//				{
+//					cents = cents.substring(0, 2)
+//				}
+//				def priceAsCurrency = "\$${dollars}.${cents}"
+//				println(priceAsCurrency)
+//			}
+//		}
+		if (!artistInstance)
+		{
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'artist.label', default: 'Artist'), params.id])
+			redirect action: 'list'
+			return
+		}
+
+		[artistInstance: artistInstance]
+
+	}
+
 	def edit() {
 		switch (request.method)
 		{
@@ -148,5 +182,6 @@ class ArtistController {
 			flash.error = "We couldn't find that Artist"
 		}
 	}
+
 }
 

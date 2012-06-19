@@ -1,0 +1,27 @@
+ul {
+    list-style: none;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+li {
+    margin-bottom: 20px;
+}
+
+.artist {
+    font-size: 1.3em;
+}
+
+.title {
+    font-style: italic;
+}
+
+ul.outer {
+    position: relative;
+    max-width: 960px;
+}
+
+li.outer {
+    display: inline-table;
+    width: 45%;
+}
