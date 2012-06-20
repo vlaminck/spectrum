@@ -25,8 +25,12 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+					dbCreate = "update"
+					url = "jdbc:mysql://localhost/spectrum"
+					driverClassName = "com.mysql.jdbc.Driver"
+					username = "spectrum"
+					password = "5p3c+rum"
+					pooled = true
             pooled = true
             properties {
                maxActive = -1
