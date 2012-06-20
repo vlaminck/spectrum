@@ -54,9 +54,7 @@ class Sale {
 	def getArtworksSold() {
 		def sold = 0
 		transactions.each {
-			println(it)
 			it.transactionItems.each {
-				println(it.qtySold)
 				sold += it.qtySold
 			}
 		}

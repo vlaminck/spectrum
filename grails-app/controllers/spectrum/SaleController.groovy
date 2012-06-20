@@ -21,15 +21,7 @@ class SaleController {
 
 	def show() {
 		def sale = Sale.get(params.id)
-		def artworksSold = 0
-		sale.transactions.each {
-			println(it)
-			it.transactionItems.each {
-				println(it.qtySold)
-				artworksSold += it.qtySold
-			}
-		}
-		return [saleInstance: sale, artworksSold: artworksSold]
+		return [saleInstance: sale]
 	}
 
 	def startSale() {
