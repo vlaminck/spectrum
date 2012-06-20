@@ -1,5 +1,8 @@
 package spectrum
 
+import grails.plugins.springsecurity.Secured
+
+@Secured(['ROLE_ADMIN'])
 class SaleController {
 
 	def saleService
