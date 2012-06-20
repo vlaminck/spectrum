@@ -1,7 +1,5 @@
 <div class="span9">
 
-
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -20,9 +18,9 @@
 
             <g:ifSale>
                 <g:if test="${artworkInstanceList}">
-                <g:sortableColumn property="qtyToPurchase"
-                                  title="Qty to Purchase"/>
-                    </g:if>
+                    <g:sortableColumn property="qtyToPurchase"
+                                      title="Qty to Purchase"/>
+                </g:if>
             </g:ifSale>
             <th></th>
         </tr>
@@ -33,7 +31,10 @@
 
                 <td>${fieldValue(bean: artworkInstance, field: "title")}</td>
 
-                <td>${fieldValue(bean: artworkInstance, field: "price")}</td>
+                <td><g:formatNumber number="${artworkInstance.price}" type="currency"
+                                    maxFractionDigits="2" roundingMode="HALF_DOWN"/>
+                </td>
+                %{--<td>${fieldValue(bean: artworkInstance, field: "price")}</td>--}%
 
                 <td>${fieldValue(bean: artworkInstance, field: "materials")}</td>
 
@@ -46,13 +47,14 @@
                     <td class="link">
                         <g:form controller="cart" action="addToCart" id="${artworkInstance.id}">
                             <g:if test="${artworkInstance.qtyAvailable == 0}">
-                            <g:textField class="shortInput" name="qtyToPurchase" disabled=""/></g:if>
+                                <g:textField class="shortInput" name="qtyToPurchase" disabled=""/></g:if>
                             <g:else><g:textField class="shortInput" name="qtyToPurchase"/></g:else>
                             <input type="hidden" name="artistId" value="${artworkInstance.artist.id}">
                             <g:if test="${artworkInstance.qtyAvailable == 0}">
-                            <g:submitButton class="btn btn-success" value="Add to Cart" name="submit" disabled=""/></g:if>
+                                <g:submitButton class="btn btn-success" value="Add to Cart" name="submit"
+                                                disabled=""/></g:if>
                             <g:else><g:submitButton class="btn btn-success" value="Add to Cart" name="submit"/></g:else>
-                            </g:form>
+                        </g:form>
                     </td>
                 </g:ifSale>
             </tr>
@@ -66,7 +68,8 @@
 
                 <td><g:textField name="materials" placeholder="Enter materials..."/></td>
 
-                <td><g:textField class="shortInput" required="" name="qtyAvailable" placeholder="Enter quantity..."/></td>
+                <td><g:textField class="shortInput" required="" name="qtyAvailable"
+                                 placeholder="Enter quantity..."/></td>
 
                 <td><g:submitButton name="newArtworkSubmit" value="Create" class="btn btn-primary"/></td>
             </tr>

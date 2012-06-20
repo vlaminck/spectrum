@@ -17,6 +17,10 @@
             <i class="icon-pencil"></i>
             Edit Artist
         </g:link>
+        <g:link class="btn" action="printLabels" id="${artistInstance?.id}">
+            <i class="icon-print"></i>
+            Print Labels
+        </g:link>
 
     </div>
     <g:render template="../flashMessages"/>

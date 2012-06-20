@@ -36,7 +36,7 @@
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
 								</button>
-								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
+								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
 									<i class="icon-trash icon-white"></i>
 									<g:message code="default.button.delete.label" default="Delete" />
 								</button>

@@ -20,7 +20,8 @@
                     ${artworkInstance.materials}
                 </li>
                 <li class="price">
-                    ${artworkInstance.price}
+                    <g:formatNumber number="${artworkInstance.price}" type="currency"
+                                    maxFractionDigits="2" roundingMode="HALF_DOWN"/>
                 </li>
             </ul>
         </li>
@@ -36,7 +37,8 @@
                     ${artworkInstance.materials}
                 </li>
                 <li class="price">
-                    <g:formatNumber number="${artworkInstance.price.round(2)}" type="number" currencyCode="USD"/>
+                    <g:formatNumber number="${artworkInstance.price}" type="currency"
+                                    maxFractionDigits="2" roundingMode="HALF_DOWN"/>
                 </li>
             </ul>
         </li>
