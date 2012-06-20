@@ -5,7 +5,7 @@ class SaleController {
 	def saleService
 
 	def index() {
-		def currentSale = findCurrentSale()
+		Sale currentSale = findCurrentSale()
 		def saleList = Sale.list(sort: "startDate", order: "desc")
 		return [saleInstance: currentSale, saleList: saleList]
 	}
@@ -21,14 +21,22 @@ class SaleController {
 
 	def show() {
 		def sale = Sale.get(params.id)
-		return [saleInstance: sale]
+		def artworksSold = 0
+		sale.transactions.each {
+			println(it)
+			it.transactionItems.each {
+				println(it.qtySold)
+				artworksSold += it.qtySold
+			}
+		}
+		return [saleInstance: sale, artworksSold: artworksSold]
 	}
 
 	def startSale() {
 		println(params)
 		if (!findCurrentSale())
 		{
-			def sale = new Sale(startingCash: params.startingCash as Double)
+			def sale = new Sale(name: params.name, startingCash: params.startingCash as Double)
 			if (sale.save())
 			{
 				flash.message = "Your sale has started!"

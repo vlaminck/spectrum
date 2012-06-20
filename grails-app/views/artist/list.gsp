@@ -10,7 +10,11 @@
 <body>
 
 <div class="page-header">
-    <h1><g:message code="default.list.label" args="[entityName]"/></h1>
+    <h1>
+        <g:message code="default.list.label" args="[entityName]"/>
+        <a class="btn btn-primary" data-toggle="modal" href="#myModal">Add Artist</a>
+    </h1>
+
 </div>
 
 <g:render template="../flashMessages"/>
@@ -33,7 +37,7 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary" data-toggle="modal" href="#myModal">Add Artist</a>
+
 
 <div class="pagination">
     <bootstrap:paginate total="${artistInstanceTotal}"/>

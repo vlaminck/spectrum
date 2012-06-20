@@ -4,11 +4,12 @@ class Sale {
 
 	Date startDate = new Date()
 	Date endDate
+	String name
 	Double startingCash
 
 	static hasMany = [transactions: Transaction]
 
-	static transients = ['endingCash', 'totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash']
+	static transients = ['endingCash', 'totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash', 'artworksSold']
 
 	static constraints = {
 		endDate(nullable: true)
@@ -48,6 +49,18 @@ class Sale {
 			total += it.totalCash
 		}
 		return total
+	}
+
+	def getArtworksSold() {
+		def sold = 0
+		transactions.each {
+			println(it)
+			it.transactionItems.each {
+				println(it.qtySold)
+				sold += it.qtySold
+			}
+		}
+		return sold
 	}
 }
 

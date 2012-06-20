@@ -116,10 +116,68 @@ div.span3 {
     color: red;
 }
 
-#startingCash {
+#startingCash, #name {
     width: 43%;
 }
 
 span.hiddenLabel {
     display: none;
+}
+
+ul {
+    list-style: none;
+}
+
+
+
+.statsWell {
+    text-align: center;
+}
+
+.statsWell div {
+    width: 50%;
+    display: inline;
+    margin: 10px 20px 0 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #08C;
+}
+
+.statsTax, .statsCash {
+    width: 45%;
+    display: inline-table;
+}
+
+.statsTax {
+    float: right;
+}
+
+.statsCash {
+    float: left;
+}
+
+.stats {
+    width: 100%;
+    text-align: right;
+}
+
+.stats li {
+    display: inline-table;
+    width: 45%;
+    padding-right: 23%;
+}
+
+li.statHeaders {
+    position: relative;
+    padding-right: 12%;
+    text-align: center;
+}
+
+.statsTable {
+    position: relative;
+
+}
+
+table.statsTable thead tr td {
+    text-align: center;
 }
