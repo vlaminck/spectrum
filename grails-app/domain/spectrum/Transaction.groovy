@@ -12,6 +12,10 @@ class Transaction {
 
 	static hasMany = [transactionItems: TransactionItem]
 
+	static mapping = {
+	        transactionItems cascade: 'all'
+	    }
+
 	static transients = ['totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash']
 
 	static constraints = {

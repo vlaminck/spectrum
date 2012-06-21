@@ -10,6 +10,7 @@
     <span class="headerTitle">Shopping Cart</span>
     <g:link class="btn btn-danger" action="clearCart">Clear Cart</g:link>
 </div>
+<g:render template="../flashMessages"/>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -44,7 +45,7 @@
                                 currencyCode="USD"/></td>
 
             <td class="link">
-            %{--<g:link controller="artist" action="show" id="${artworkInstance.artistId}" class="btn btn-small">Edit &raquo;</g:link>--}%
+                %{--<g:link controller="artist" action="show" id="${artworkInstance.artistId}" class="btn btn-small">Edit &raquo;</g:link>--}%
                 <g:link action="removeFromCart" id="${artworkInstance.artworkId}"
                         class="btn btn-small">Remove from Cart</g:link>
             </td>
@@ -133,10 +134,18 @@
             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             <g:submitButton class="btn btn-primary" name="finalPayment" value="Authorize" disabled="disabled"/>
             <h3 id="paymentSum">
-                Amount left: $<span>
-                <g:formatNumber number="${totalWithTax?.round(2)}" type="number" currencyCode="USD"/></span>
+                <span class="amount-left">
+                    Amount left:
+                </span>
+                <span class="change-due">
+                    Change Due:
+                </span>
+                <span class="amount">
+                    <g:formatNumber number="${totalWithTax}" type="currency" currencyCode="USD" maxFractionDigits="2"/>
+                </span>
             </h3>
         </div>
+        <input type="hidden" name="changeDue" value="0" id="change-due-input"/>
     </g:form>
 </div>
 
@@ -210,19 +219,35 @@
         var paymentAmount = calculatePayments()
         if (paymentAmount == 0.00)
         {
+            $("#paymentSum").css({color:"transparent"});
+            $("#finalPayment").removeAttr('disabled');
+            $(".amount-left").show();
+            $(".change-due").hide();
+            $("#change-due-input").val(0);
+        }
+        else if (paymentAmount < 0.00)
+        {
             $("#paymentSum").css({color:"green"});
             $("#finalPayment").removeAttr('disabled');
+            $("#paymentSum").find("span.amount").text('$' + (calculatePayments() * -1).toFixed(2));
+            $("#change-due-input").val((calculatePayments() * -1).toFixed(2));
+            $(".amount-left").hide();
+            $(".change-due").show();
         }
         else
         {
             $("#paymentSum").css({color:"red"});
             $("#finalPayment").attr('disabled', 'disabled');
+            $("#change-due-input").val(0);
+            $(".amount-left").show();
+            $(".change-due").hide();
         }
+        console.log($("#change-due-input").val());
     }
 
     function updateCheckoutForm()
     {
-        $("#paymentSum").find("span").text(calculatePayments());
+        $("#paymentSum").find("span.amount").text('$' + calculatePayments());
         toggleDisabled();
         verifyPaymentTypes();
     }
@@ -268,6 +293,7 @@
     }
     $(document).ready(function ()
     {
+        $("span.change-due").hide();
         $(".modal-body").find("input").change(function ()
                 {
                     updateCheckoutForm();

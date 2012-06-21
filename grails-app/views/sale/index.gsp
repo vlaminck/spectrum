@@ -8,7 +8,10 @@
 <body>
 <div class="page-header">
     <span class="headerTitle">Sale Stats</span>
-    <g:ifSale><g:link controller="sale" action="endSale" class="btn btn-danger">End Sale</g:link></g:ifSale>
+    <g:ifSale>
+        <g:link controller="sale" action="transactions" class="btn">Transaction List</g:link>
+        <g:link controller="sale" action="endSale" class="btn btn-danger">End Sale</g:link>
+    </g:ifSale>
     <g:elseSale><a class="btn btn-primary" data-toggle="modal" href="#myModal">Start New Sale</a></g:elseSale>
 </div>
 <g:render template="../flashMessages"/>

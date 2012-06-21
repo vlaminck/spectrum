@@ -41,7 +41,8 @@ class SaleController {
 				flash.error = "Unable to start sale..."
 			}
 		}
-		else {
+		else
+		{
 			flash.warn = "You must end the current sale before starting another."
 		}
 		redirect action: "index"
@@ -56,4 +57,61 @@ class SaleController {
 
 	}
 
+	def transactions() {
+		def sale
+		if (params.saleId)
+		{
+			sale = Sale.get(params.saleId)
+		}
+		else
+		{
+			sale = findCurrentSale()
+		}
+		if (!sale)
+		{
+			redirect(action: "index")
+		}
+		return [sale: sale]
+	}
+
+	def voidTransaction() {
+		def sale = Sale.get(params.saleId)
+		def transaction = Transaction.get(params.transactionId)
+		def transactionItemsList = transaction.transactionItems
+		def successMessage = "Successfully voided transaction. Please refund \$${transaction.paymentAmount1} ${transaction.paymentType1}"
+		if (transaction.paymentAmount2)
+		{
+			successMessage += ", \$${transaction.paymentAmount2} ${transaction.paymentType2}"
+			if (transaction.paymentAmount3)
+			{
+				successMessage += ", \$${transaction.paymentAmount3} ${transaction.paymentType3}"
+			}
+		}
+		successMessage += "."
+		def saveSuccess = true
+		def artworkErrors = []
+		transactionItemsList.each {
+			def artwork = it.artwork
+			artwork.qtyAvailable += it.qtySold
+			if (!artwork.save(flush: true))
+			{
+				saveSuccess = false
+				println("Failed to save artwork: ${artwork?.id}")
+				artworkErrors << artwork
+			}
+		}
+		if (!saveSuccess)
+		{
+			flash.error = "We were unable to readd ${artworkErrors.collect {it.title}.join(', ')} to inventory."
+		}
+		else
+		{
+			sale.removeFromTransactions(transaction)
+			sale.save(flush: true)
+			transaction.delete()
+			flash.warn = successMessage
+		}
+		redirect(action: "transactions")
+	}
 }
+

@@ -71,6 +71,26 @@ class CartController {
 		{
 			def sale = saleService.getCurrentSale()
 
+			def changeDue = params.changeDue.toDouble()
+			def cash
+			if (params.paymentType1 == 'Cash')
+			{
+				cash = changeDue > 0 ? params.paymentAmount1.toDouble() - changeDue : params.paymentAmount1
+			}
+			else if (params.paymentAmount2 == 'Cash')
+			{
+				cash = changeDue > 0 ? params.paymentAmount2.toDouble() - changeDue : params.paymentAmount2
+			}
+			else if (params.paymentAmount == 'Cash')
+			{
+				cash = changeDue > 0 ? params.paymentAmount3.toDouble() - changeDue : params.paymentAmount3
+			}
+
+			if (changeDue > 0)
+			{
+				flash.message = "Please give \$${params.changeDue} change. <script type='text/javascript'>alert('Please give \$${params.changeDue} change')</script>"
+			}
+
 			def transaction = new Transaction(
 							paymentType1: params.paymentType1,
 							paymentAmount1: params.paymentAmount1,
