@@ -87,7 +87,7 @@ class SaleController {
 				successMessage += ", \$${transaction.paymentAmount3} ${transaction.paymentType3}"
 			}
 		}
-		successMessage += "."
+		successMessage += ".<script type='text/javascript'>alert('${successMessage}')</script>"
 		def saveSuccess = true
 		def artworkErrors = []
 		transactionItemsList.each {

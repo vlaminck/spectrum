@@ -8,7 +8,7 @@
 <body>
 <div class="page-header">
     <span class="headerTitle">Shopping Cart</span>
-    <g:link class="btn btn-danger" action="clearCart">Clear Cart</g:link>
+    <g:link class="btn btn-danger" action="clearCart" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Clear Cart</g:link>
 </div>
 <g:render template="../flashMessages"/>
 <table class="table table-striped">
@@ -242,7 +242,6 @@
             $(".amount-left").show();
             $(".change-due").hide();
         }
-        console.log($("#change-due-input").val());
     }
 
     function updateCheckoutForm()

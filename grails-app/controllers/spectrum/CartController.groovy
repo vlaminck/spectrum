@@ -70,27 +70,6 @@ class CartController {
 		if (cart.artworks)
 		{
 			def sale = saleService.getCurrentSale()
-
-			def changeDue = params.changeDue.toDouble()
-			def cash
-			if (params.paymentType1 == 'Cash')
-			{
-				cash = changeDue > 0 ? params.paymentAmount1.toDouble() - changeDue : params.paymentAmount1
-			}
-			else if (params.paymentAmount2 == 'Cash')
-			{
-				cash = changeDue > 0 ? params.paymentAmount2.toDouble() - changeDue : params.paymentAmount2
-			}
-			else if (params.paymentAmount == 'Cash')
-			{
-				cash = changeDue > 0 ? params.paymentAmount3.toDouble() - changeDue : params.paymentAmount3
-			}
-
-			if (changeDue > 0)
-			{
-				flash.message = "Please give \$${params.changeDue} change. <script type='text/javascript'>alert('Please give \$${params.changeDue} change')</script>"
-			}
-
 			def transaction = new Transaction(
 							paymentType1: params.paymentType1,
 							paymentAmount1: params.paymentAmount1,
@@ -98,9 +77,35 @@ class CartController {
 							paymentAmount2: params.paymentAmount2,
 							paymentType3: params.paymentType3,
 							paymentAmount3: params.paymentAmount3
-			).save()
+			)
+
+			def changeDue = params.changeDue.toDouble()
+			def cash
+			if (params.paymentType1 == 'Cash')
+			{
+				cash = changeDue > 0 ? params.paymentAmount1.toDouble() - changeDue : params.paymentAmount1
+				transaction.paymentAmount1 = cash
+			}
+			else if (params.paymentType2 == 'Cash')
+			{
+				cash = changeDue > 0 ? params.paymentAmount2.toDouble() - changeDue : params.paymentAmount2
+				transaction.paymentAmount2 = cash
+			}
+			else if (params.paymentType3 == 'Cash')
+			{
+				cash = changeDue > 0 ? params.paymentAmount3.toDouble() - changeDue : params.paymentAmount3
+				transaction.paymentAmount3 = cash
+			}
+
+			if (changeDue > 0)
+			{
+				flash.message = "Please give \$${params.changeDue} change. <script type='text/javascript'>alert('Please give \$${params.changeDue} change')</script>"
+			}
+
+			transaction.save()
 			sale.addToTransactions(transaction)
 			sale.save()
+
 			List artworks = cart.artworks as List
 			artworks.each {
 				def artwork = Artwork.get(it.artworkId)

@@ -1,6 +1,6 @@
 <li>
     <h1>Transaction ${transaction.id}
-            <g:link controller="sale" action="voidTransaction" params="[saleId: sale.id, transactionId: transaction.id]" class="btn btn-danger">Void Transaction</g:link>
+            <g:link controller="sale" action="voidTransaction" params="[saleId: sale.id, transactionId: transaction.id]" class="btn btn-danger" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Void Transaction</g:link>
     </h1>
     <table class="table table-striped">
     <thead>

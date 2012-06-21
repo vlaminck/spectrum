@@ -10,7 +10,7 @@
     <span class="headerTitle">Sale Stats</span>
     <g:ifSale>
         <g:link controller="sale" action="transactions" class="btn">Transaction List</g:link>
-        <g:link controller="sale" action="endSale" class="btn btn-danger">End Sale</g:link>
+        <g:link controller="sale" action="endSale" class="btn btn-danger" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">End Sale</g:link>
     </g:ifSale>
     <g:elseSale><a class="btn btn-primary" data-toggle="modal" href="#myModal">Start New Sale</a></g:elseSale>
 </div>
