@@ -83,17 +83,17 @@ class CartController {
 			def cash
 			if (params.paymentType1 == 'Cash')
 			{
-				cash = changeDue > 0 ? params.paymentAmount1.toDouble() - changeDue : params.paymentAmount1
+				cash = changeDue > 0 ? params.paymentAmount1.toDouble() - changeDue : params.paymentAmount1 as Double
 				transaction.paymentAmount1 = cash
 			}
 			else if (params.paymentType2 == 'Cash')
 			{
-				cash = changeDue > 0 ? params.paymentAmount2.toDouble() - changeDue : params.paymentAmount2
+				cash = changeDue > 0 ? params.paymentAmount2.toDouble() - changeDue : params.paymentAmount2 as Double
 				transaction.paymentAmount2 = cash
 			}
 			else if (params.paymentType3 == 'Cash')
 			{
-				cash = changeDue > 0 ? params.paymentAmount3.toDouble() - changeDue : params.paymentAmount3
+				cash = changeDue > 0 ? params.paymentAmount3.toDouble() - changeDue : params.paymentAmount3 as Double
 				transaction.paymentAmount3 = cash
 			}
 
