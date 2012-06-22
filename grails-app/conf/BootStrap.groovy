@@ -11,16 +11,15 @@ class BootStrap {
 	def init = { servletContext ->
 		if (GRAILS_ENVIRONMENT == GrailsApplication.ENV_DEVELOPMENT)
 		{
-			def authority = 'ROLE_ADMIN'
-			def username = 'katie.siewert@gmail.com'
-			createUsers(authority, username)
+			createUser('ROLE_ADMIN', 'katie.siewert@gmail.com')
+			createUser('ROLE_ADMIN', 'mandersen@resource-mn.org')
 			createArtistsArtworks()
 		}
 	}
 	def destroy = {
 	}
 
-	def createUsers(authority, username) {
+	def createUser(authority, username) {
 		def role = Role.findByAuthority(authority) ?: new Role(authority: authority).save(flush: true)
 		def user = User.findByUsername(username) ?: new User(username: username, password: 'test', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false).save(flush: true)
 		if (!UserRole.findByUser(user)) UserRole.create(user, role, true)
