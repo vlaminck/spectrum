@@ -66,6 +66,9 @@ class CartController {
 	}
 
 	def checkOut() {
+
+		cleanParams()
+
 		def cart = getShoppingCart()
 		if (cart.artworks)
 		{
@@ -126,6 +129,12 @@ class CartController {
 		}
 //		redirect(controller: "artist", action: "list")
 		//redirect(action: "show")
+	}
+
+	private cleanParams() {
+		params.paymentAmount1 = params.paymentAmount1.replaceAll(',', '.')
+		params.paymentAmount2 = params.paymentAmount2.replaceAll(',', '.')
+		params.paymentAmount3 = params.paymentAmount3.replaceAll(',', '.')
 	}
 
 	private emptyCart() {
