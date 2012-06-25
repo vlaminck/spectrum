@@ -8,6 +8,10 @@
 </head>
 
 <body>
+<div class="page-header">
+    <span class="headerTitle">Sale Stats</span>
+        <g:link controller="sale" action="transactions" params="[saleId: saleInstance.id]" class="btn">Transaction List</g:link>
+</div>
 <g:render template="../flashMessages"/>
 <g:render template="saleStats" model="[saleInstance: saleInstance]"/>
 </body>

@@ -29,7 +29,7 @@ class Transaction {
 
 	}
 
-	static paymentTypes = ["Cash", "Check"]
+	static paymentTypes = ["Credit Card", "Cash", "Check"]
 
 	def getTotalBeforeTax() {
 		def total = 0.0

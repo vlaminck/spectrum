@@ -206,7 +206,7 @@
     function disableCash(selectorId)
     {
         $(selectorId).find("option[value=Cash]").attr('disabled', 'disabled');
-        $(selectorId).find("select").val("Check");
+//        $(selectorId).find("select").val("Check");
     }
 
     function enableCash(selectorId)
@@ -253,7 +253,7 @@
 
     function updateCheckoutSelects(elementId)
     {
-        if ($("#" + elementId).val() == "Check")
+        if ($("#" + elementId).val() != "Cash")
         {
             if (elementId == "paymentType1")
             {

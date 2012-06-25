@@ -125,10 +125,9 @@ class CartController {
 				transaction.addToTransactionItems(transactionItem)
 				transaction.save()
 			}
-			clearCart()
+			emptyCart()
 		}
-//		redirect(controller: "artist", action: "list")
-		//redirect(action: "show")
+		redirect(controller: "sale", action: "transactions")
 	}
 
 	private cleanParams() {
@@ -167,7 +166,7 @@ class CartController {
 					if ((artwork.qtyAvailable - it.artworkQty) >= params.qtyToPurchase.toInteger())
 					{
 						it.artworkQty += params.qtyToPurchase as Integer
-						flash.message = "There are now ${it.artworkQty} of <span class='italicize'>${artwork.title}</span> in the cart"
+						flash.message = "There are now ${it.artworkQty} of <span class='italicize'>${artwork.title}</span> in the cart ${g.link(style: 'float: right;', class: 'btn btn-primary', controller: 'cart', action: 'show') {'Shopping Cart'}}"
 					}
 					else
 					{

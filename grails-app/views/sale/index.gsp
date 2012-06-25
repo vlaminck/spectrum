@@ -22,9 +22,9 @@
 <g:elseSale>
     <h2>Previous Sales</h2>
     <ul>
-        <g:each in="${saleList}" var="previousSale">
+        <g:each in="${saleList.sort{it.endDate}.reverse()}" var="previousSale">
             <li><g:link controller="sale" action="show" id="${previousSale.id}">
-                <g:formatDate format="yyyy-MM-dd" date="${previousSale.startDate}"/>
+                ${previousSale.name}
             </g:link></li>
         </g:each>
     </ul>
