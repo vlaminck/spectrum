@@ -59,19 +59,26 @@ class SaleController {
 
 	def transactions() {
 		def sale
+		def transactions = []
 		if (params.saleId)
 		{
 			sale = Sale.get(params.saleId)
+			transactions = sale?.transactions
 		}
 		else
 		{
 			sale = findCurrentSale()
+			transactions = sale?.transactions
+		}
+		if (params.id) {
+			transactions = []
+			transactions << Transaction.get(params.id)
 		}
 		if (!sale)
 		{
 			redirect(action: "index")
 		}
-		return [sale: sale]
+		return [sale: sale, transactions: transactions]
 	}
 
 	def voidTransaction() {

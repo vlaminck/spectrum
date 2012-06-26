@@ -13,10 +13,10 @@ class Transaction {
 	static hasMany = [transactionItems: TransactionItem]
 
 	static mapping = {
-	        transactionItems cascade: 'all'
-	    }
+		transactionItems cascade: 'all'
+	}
 
-	static transients = ['totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash']
+	static transients = ['totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash', 'totalCheck', 'totalCreditCard']
 
 	static constraints = {
 
@@ -71,5 +71,40 @@ class Transaction {
 		}
 		return total
 	}
+
+	def getTotalCheck () {
+		def total = 0.0
+		if (paymentType1 == "Check")
+		{
+			total += paymentAmount1
+		}
+		if (paymentType2 == "Check" && paymentAmount2)
+		{
+			total += paymentAmount2
+		}
+		if (paymentType3 == "Check" && paymentAmount3)
+		{
+			total += paymentAmount3
+		}
+		return total
+	}
+
+	def getTotalCreditCard () {
+		def total = 0.0
+		if (paymentType1 == "Credit Card")
+		{
+			total += paymentAmount1
+		}
+		if (paymentType2 == "Credit Card" && paymentAmount2)
+		{
+			total += paymentAmount2
+		}
+		if (paymentType3 == "Credit Card" && paymentAmount3)
+		{
+			total += paymentAmount3
+		}
+		return total
+	}
 }
+
 

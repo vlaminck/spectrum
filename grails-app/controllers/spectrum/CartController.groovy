@@ -68,7 +68,6 @@ class CartController {
 	def checkOut() {
 
 		cleanParams()
-
 		def cart = getShoppingCart()
 		if (cart.artworks)
 		{
@@ -115,7 +114,9 @@ class CartController {
 				def transactionItem = new TransactionItem(
 								artworkId: it.artworkId,
 								qtySold: it.artworkQty,
-								priceEach: artwork.price
+								priceEach: artwork.price,
+								artworkTitle: artwork.title,
+								artistName: artwork.artist.fullName
 				)
 				if (transactionItem.save())
 				{
@@ -126,8 +127,13 @@ class CartController {
 				transaction.save()
 			}
 			emptyCart()
+			redirect(controller: "sale", action: "transactions", id: transaction?.id)
 		}
-		redirect(controller: "sale", action: "transactions")
+		else
+		{
+			flash.warn = "There are no items to purchase."
+			redirect(controller: "artist", action: "list")
+		}
 	}
 
 	private cleanParams() {
@@ -188,7 +194,7 @@ class CartController {
 				{
 					def entry = [artworkId: params.id, artworkQty: params.qtyToPurchase as Integer]
 					cart.artworks << entry
-					flash.message = "There are now ${params.qtyToPurchase} of <span class='italicize'>${artwork.title}</span> in the cart"
+					flash.message = "There are now ${params.qtyToPurchase} of <span class='italicize'>${artwork.title}</span> in the cart ${g.link(style: 'float: right;', class: 'btn btn-primary', controller: 'cart', action: 'show') {'Shopping Cart'}}"
 				}
 				else
 				{

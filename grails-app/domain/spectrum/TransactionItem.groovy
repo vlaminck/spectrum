@@ -5,6 +5,8 @@ class TransactionItem {
 	Long artworkId
 	Integer qtySold
 	Double priceEach
+	String artworkTitle
+	String artistName
 
 	static transients = ['artwork', 'totalPrice', 'totalTax']
 

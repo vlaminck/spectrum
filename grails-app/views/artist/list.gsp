@@ -10,10 +10,17 @@
 <body>
 
 <div class="page-header">
-    <h1>
+    %{--<h1>--}%
+    <span class="headerTitle">
         <g:message code="default.list.label" args="[entityName]"/>
-        <a class="btn btn-primary" data-toggle="modal" href="#myModal">Add Artist</a>
-    </h1>
+    </span>
+
+    <a class="btn btn-primary" data-toggle="modal" href="#myModal">Add Artist</a>
+    <g:link class="btn" action="printLabels">
+        <i class="icon-print"></i>
+        Print Labels
+    </g:link>
+%{--</h1>--}%
 
 </div>
 
@@ -23,7 +30,7 @@
 
 <table class="table table-striped">
     <tbody>
-    <g:each in="${artistInstanceList}" var="artistInstance">
+    <g:each in="${artistInstanceList.sort {it.fullName.toLowerCase()}}" var="artistInstance">
         <tr>
 
             <td>${fieldValue(bean: artistInstance, field: "fullName")}</td>
@@ -37,11 +44,6 @@
     </tbody>
 </table>
 
-
-
-<div class="pagination">
-    <bootstrap:paginate total="${artistInstanceTotal}"/>
-</div>
 
 <div class="modal hide" id="myModal">
     <g:form controller="artist" action="create">

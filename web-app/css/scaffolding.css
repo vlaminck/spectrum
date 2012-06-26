@@ -178,6 +178,12 @@ li.statHeaders {
 
 }
 
+.statsTable td {
+    width: 25%;
+    text-align: center;
+}
+
+
 table.statsTable thead tr td {
     text-align: center;
 }

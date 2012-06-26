@@ -9,7 +9,7 @@ class Sale {
 
 	static hasMany = [transactions: Transaction]
 
-	static transients = ['endingCash', 'totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash', 'artworksSold']
+	static transients = ['endingCash', 'totalBeforeTax', 'totalWithTax', 'totalTax', 'totalCash', 'artworksSold', 'totalCheck', 'totalCreditCard']
 
 	static constraints = {
 		endDate(nullable: true)
@@ -47,6 +47,22 @@ class Sale {
 		def total = 0.0
 		transactions.each {
 			total += it.totalCash
+		}
+		return total
+	}
+
+	def getTotalCheck() {
+		def total = 0.0
+		transactions.each {
+			total += it.totalCheck
+		}
+		return total
+	}
+
+	def getTotalCreditCard() {
+		def total = 0.0
+		transactions.each {
+			total += it.totalCreditCard
 		}
 		return total
 	}

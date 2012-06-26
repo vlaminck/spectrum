@@ -27,9 +27,9 @@
             <g:set var="artworkInstance" value="${transactionItem.artwork}"/>
             <tr>
 
-                <td>${artworkInstance.title}</td>
+                <td>${transactionItem.artworkTitle}</td>
 
-                <td>${artworkInstance.artist.fullName}</td>
+                <td>${transactionItem.artistName}</td>
 
                 <td><g:formatNumber number="${transactionItem.priceEach.round(2)}" type="currency"
                                     currencyCode="USD"/></td>

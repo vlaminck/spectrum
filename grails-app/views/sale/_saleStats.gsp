@@ -25,6 +25,32 @@
     <thead>
     <tr>
         <td colspan="2">
+            <h3>Credit Card</h3>
+        </td>
+        <td colspan="2">
+            <h3>Check</h3>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Total Credit Card:</td>
+        <td><g:formatNumber number="${saleInstance?.totalCreditCard?.toDouble()?.round(2)}"
+                            type="currency"
+                            currencyCode="USD"/></td>
+        <td>Total Check:</td>
+        <td><g:formatNumber number="${saleInstance?.totalCheck?.toDouble()?.round(2)}"
+                            type="currency"
+                            currencyCode="USD"/></td>
+    </tr>
+
+    </tbody>
+</table>
+
+<table class="table table-striped statsTable">
+    <thead>
+    <tr>
+        <td colspan="2">
             <h3>Tax</h3>
         </td>
         <td colspan="2">

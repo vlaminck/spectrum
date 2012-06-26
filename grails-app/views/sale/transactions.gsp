@@ -8,7 +8,7 @@
 <body>
 <g:render template="../flashMessages"/>
 <ul>
-<g:each var="transaction" in="${sale.transactions.sort{it.id}}">
+<g:each var="transaction" in="${transactions.sort{it.id}}">
     <g:render template="saleTransaction" model="[transaction: transaction, sale: sale]"/>
     <br/>
     <br/>

@@ -14,8 +14,7 @@ class ArtistController {
 	}
 
 	def list() {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[artistInstanceList: Artist.list(params), artistInstanceTotal: Artist.count()]
+		[artistInstanceList: Artist.list(), artistInstanceTotal: Artist.count()]
 	}
 
 	def create() {
@@ -51,36 +50,22 @@ class ArtistController {
 	}
 
 	def printLabels() {
-		def artistInstance = Artist.get(params.id)
-//		artistInstance.artworks.each {
-//			def price = it.price.toString()
-//			println(price)
-//			if (price.contains('.'))
-//			{
-//				def split = price.split('.')
-//				println(split)
-//				def dollars = split[0]
-//				def cents = split.size() > 1 ? split[1] : '00'
-//				if (cents.size() == 1)
-//				{
-//					cents += '0'
-//				}
-//				else if (cents.size() > 2)
-//				{
-//					cents = cents.substring(0, 2)
-//				}
-//				def priceAsCurrency = "\$${dollars}.${cents}"
-//				println(priceAsCurrency)
-//			}
-//		}
-		if (!artistInstance)
+		def artistInstanceList = []
+		if (params.id)
 		{
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'artist.label', default: 'Artist'), params.id])
+			artistInstanceList << Artist.get(params.id)
+		}
+		else {
+			artistInstanceList = Artist.list()
+		}
+		if (!artistInstanceList)
+		{
+			flash.message = "Couldn't find any artists to print labels for."
 			redirect action: 'list'
 			return
 		}
 
-		[artistInstance: artistInstance]
+		[artistInstanceList: artistInstanceList]
 
 	}
 
