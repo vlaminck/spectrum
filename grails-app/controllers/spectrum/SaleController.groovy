@@ -70,7 +70,8 @@ class SaleController {
 			sale = findCurrentSale()
 			transactions = sale?.transactions
 		}
-		if (params.id) {
+		if (params.id)
+		{
 			transactions = []
 			transactions << Transaction.get(params.id)
 		}
@@ -99,12 +100,15 @@ class SaleController {
 		def artworkErrors = []
 		transactionItemsList.each {
 			def artwork = it.artwork
-			artwork.qtyAvailable += it.qtySold
-			if (!artwork.save(flush: true))
+			if (artwork)
 			{
-				saveSuccess = false
-				println("Failed to save artwork: ${artwork?.id}")
-				artworkErrors << artwork
+				artwork.qtyAvailable += it.qtySold
+				if (!artwork.save(flush: true))
+				{
+					saveSuccess = false
+					println("Failed to save artwork: ${artwork?.id}")
+					artworkErrors << artwork
+				}
 			}
 		}
 		if (!saveSuccess)
