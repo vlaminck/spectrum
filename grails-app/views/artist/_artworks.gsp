@@ -77,7 +77,4 @@
         </tbody>
     </table>
 
-    <div class="pagination">
-        <bootstrap:paginate total="${artworkInstanceTotal}"/>
-    </div>
 </div>
